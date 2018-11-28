@@ -1,9 +1,9 @@
 import {
     ADD_CURHAT,
     FETCH_DATA_POST,
-    FETCH_DATA_POST_BY_ID,
     FETCH_DATA_POST_USER_BY_ID,
-    FETCH_POST_BY_POST_ID
+    FETCH_POST_BY_POST_ID,
+    DELETE_POST_BY_ID
 } from "./types"
 import axios from "axios";
 
@@ -75,6 +75,24 @@ export const fetchDataPostUserById = (token, id) => (dispatch) => {
             console.log(res.data)
             dispatch({
                 type: FETCH_POST_BY_POST_ID,
+                payload: res.data
+            })
+        })
+        .catch(err => console.log(err))
+
+}
+
+
+export const DeleteDataPostUserById = (token, id) => (dispatch) => {
+    axios.delete(`https://curhatin.herokuapp.com/post/${id}`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+        .then(res => {
+            console.log(res.data)
+            dispatch({
+                type: DELETE_POST_BY_ID,
                 payload: res.data
             })
         })

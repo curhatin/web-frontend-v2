@@ -23,7 +23,7 @@ class Login extends Component {
       password: this.state.password
     })
     // await this.props.fetchDataPost(localStorage.token);
-      // this   .props.history.push("/Share");
+      // this.props.history.push("/Share");
       
   }
 

@@ -14,7 +14,7 @@ class MyStoryDetail extends Component {
         <div>
             <Navbar />
             <UserNavbar />
-            <MstoryDetail id={this.props.match.params.id}/>
+            <MstoryDetail id={this.props.match.params.id} history={this.props.history}/>
 
         </div>
              );

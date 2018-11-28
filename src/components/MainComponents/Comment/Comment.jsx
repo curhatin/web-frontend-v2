@@ -1,13 +1,25 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import '../Comment/Style.css'
+import { connect } from "react-redux";
+
 
 class Comment extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      postId : '',
+      comments : ''
+    };
+  }
+
+  onChange = e => {
+    this.setState({
+      
+    })
   }
   render() {
+    console.log(this.props.post_by_post_id)
     return (
       <div>
         <div id="peoplestories">
@@ -115,4 +127,11 @@ class Comment extends Component {
   }
 }
 
-export default Comment;
+const mapStateToProps = state => ({
+  post_by_post_id: state.post.post_by_post_id
+ 
+});
+
+export default connect(
+mapStateToProps,{}
+)(Comment);

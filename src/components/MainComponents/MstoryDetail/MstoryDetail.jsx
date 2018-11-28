@@ -6,6 +6,7 @@ import { fetchDataPostUserById } from "../../../actions/postActions";
 import timeAgo from "time-ago";
 import { Link } from "react-router-dom";
 import { fetchDataCommentsByPostId } from "../../../actions/commentsActions";
+import { DeleteDataPostUserById } from "../../../actions/postActions"
 
 class MstoryDetail extends Component {
   constructor(props) {
@@ -15,8 +16,11 @@ class MstoryDetail extends Component {
   componentDidMount() {
     this.props.fetchDataPostUserById(localStorage.token, this.props.id);
   }
+  deleteHandle = () => {
+    this.props.DeleteDataPostUserById(localStorage.token, this.props.id)
+    this.props.history.push("/Mystories");
+  }
   render() {
-    console.log(this.props.post_by_post_id )
     return (
       <div>
         <div id="peoplestories">
@@ -77,7 +81,7 @@ class MstoryDetail extends Component {
                           </button>
                         </div>
                         <div id="update-button">
-                          <button type="submit" className="btn-outline-success">
+                          <button onClick={this.deleteHandle} type="submit" className="btn-outline-success">
                             Delete
                           </button>
                         </div>
@@ -177,5 +181,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { login, fetchDataCommentsByPostId, fetchDataPostUserById }
+  { login, fetchDataCommentsByPostId, fetchDataPostUserById, DeleteDataPostUserById }
 )(MstoryDetail);
