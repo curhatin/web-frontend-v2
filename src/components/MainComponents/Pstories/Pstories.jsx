@@ -13,6 +13,7 @@ class Pstories extends Component {
     this.state = {};
   }
   render() {
+    console.log(this.props.post_list)
     return (
       <div id="peoplestories">
         <div id="box-lg">
