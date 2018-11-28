@@ -7,6 +7,7 @@ import {login} from '../../actions/authActions'
 import {fetchDataPostById} from '../../actions/postActions'
 
 
+
 class Mystories extends Component {
   constructor(props) {
     super(props);
@@ -20,7 +21,6 @@ class Mystories extends Component {
   };
   componentDidMount(){
     if(this.props.token){
-      console.log("satu post")
       this.props.fetchDataPostById(localStorage.token);
     }
     
@@ -32,9 +32,7 @@ class Mystories extends Component {
       <div>
         <Navbar/>
         <UserNavbar />
-        { this.props.post_list_by_id && this.props.post_list_by_id.map((postData,index)=> (
           <Mstory />
-          ))}
         
        
         

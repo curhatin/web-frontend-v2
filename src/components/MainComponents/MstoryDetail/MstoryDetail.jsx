@@ -1,23 +1,22 @@
 import React, { Component } from "react";
-import '../MstoryDetail/Style.css'
-import {connect} from 'react-redux'
-import {login} from '../../../actions/authActions'
-import { fetchDataPostById } from '../../../actions/postActions'
-import timeAgo  from 'time-ago'
-import {Link} from 'react-router-dom'
-import { fetchDataCommentsByPostId } from '../../../actions/commentsActions'
-
+import "../MstoryDetail/Style.css";
+import { connect } from "react-redux";
+import { login } from "../../../actions/authActions";
+import { fetchDataPostUserById } from "../../../actions/postActions";
+import timeAgo from "time-ago";
+import { Link } from "react-router-dom";
+import { fetchDataCommentsByPostId } from "../../../actions/commentsActions";
 
 class MstoryDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
-  componentDidMount(){
-    this.props.fetchDataPostById(localStorage.token, this.props.id)
-    
+  componentDidMount() {
+    this.props.fetchDataPostUserById(localStorage.token, this.props.id);
   }
   render() {
+    console.log(this.props.post_by_post_id )
     return (
       <div>
         <div id="peoplestories">
@@ -30,8 +29,21 @@ class MstoryDetail extends Component {
                       <div id="comment-wrapper">
                         <div className="col-md-12">
                           <div id="comment-notif">
-                            <p> {this.props.post_detail &&  this.props.post_detail[`posts-comments`].length} comments </p>
-                            <p> {timeAgo.ago(new Date(this.props.post_detail &&  this.props.post_detail.createdAt))}</p>
+                            <p>
+                              {" "}
+                              {this.props.post_by_post_id &&
+                                this.props.post_by_post_id[`posts-comments`].length}{" "}
+                              comments{" "}
+                            </p>
+                            <p>
+                              {" "}
+                              {timeAgo.ago(
+                                new Date(
+                                  this.props.post_by_post_id &&
+                                    this.props.post_by_post_id.createdAt
+                                )
+                              )}
+                            </p>
                           </div>
                         </div>
 
@@ -40,15 +52,18 @@ class MstoryDetail extends Component {
                             <div id="comment-title">
                               <a href="#">
                                 <h5>
-                                  
-                                  <strong>{this.props.post_detail &&  this.props.post_detail.topic}</strong>
+                                  <strong>
+                                    {this.props.post_by_post_id &&
+                                      this.props.post_by_post_id.topic}
+                                  </strong>
                                 </h5>
                               </a>
                             </div>
                             <hr />
                             <div id="comment-content">
                               <p>
-                              {this.props.post_detail &&  this.props.post_detail.post}
+                                {this.props.post_by_post_id &&
+                                  this.props.post_by_post_id.post}
                               </p>
                             </div>
                           </div>
@@ -68,26 +83,27 @@ class MstoryDetail extends Component {
                         </div>
                       </div>
 
-{ this.props.post_detail && this.props.post_detail[`posts-comments`].map((commentData,index)=> (
+                      {this.props.post_by_post_id &&
+                        this.props.post_by_post_id[`posts-comments`].map(
+                          (commentData, index) => (
+                            <div id="other-comment-box" key={index}>
+                              <div id="comment-title">
+                                <div id="comment-notif">
+                                  <p>
+                                    {timeAgo.ago(
+                                      new Date(commentData.comment.createdAt)
+                                    )}
+                                  </p>
+                                </div>
+                              </div>
 
-                      <div id="other-comment-box" key={index}>
-                        <div id="comment-title">
-                        <div id="comment-notif">
-                            
-                            <p>{timeAgo.ago(new Date(commentData.comment.createdAt ))}</p>
-                          </div>
-                        </div>
-                      
-                        <div id="comment-content">
-                          <p>
-                            {commentData.comment.comments}
-                          </p>
-                          <hr />
-                        </div>
-                      </div>
-
-                      ))}
-
+                              <div id="comment-content">
+                                <p>{commentData.comment.comments}</p>
+                                <hr />
+                              </div>
+                            </div>
+                          )
+                        )}
 
                       <div id="button-wrapper-2">
                         <div id="update-button-2">
@@ -152,11 +168,14 @@ class MstoryDetail extends Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated : state.auth.isAuthenticated,
-  token : state.auth.token,
-  post_detail : state.post.post_detail,
-  comment : state.comment.comments_by_post_id
+  isAuthenticated: state.auth.isAuthenticated,
+  token: state.auth.token,
+  post_detail: state.post.post_detail,
+  comment: state.comment.comments_by_post_id,
+  post_by_post_id: state.post.post_by_post_id
+});
 
-})
-
-export default connect(mapStateToProps,{login,fetchDataPostById,fetchDataCommentsByPostId})(MstoryDetail)
+export default connect(
+  mapStateToProps,
+  { login, fetchDataCommentsByPostId, fetchDataPostUserById }
+)(MstoryDetail);

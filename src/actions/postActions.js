@@ -2,7 +2,8 @@ import {
     ADD_CURHAT,
     FETCH_DATA_POST,
     FETCH_DATA_POST_BY_ID,
-    FETCH_DATA_POST_USER_BY_ID
+    FETCH_DATA_POST_USER_BY_ID,
+    FETCH_POST_BY_POST_ID
 } from "./types"
 import axios from "axios";
 
@@ -61,7 +62,7 @@ export const fetchDataPostUserById = (token, id) => (dispatch) => {
     .then(res => 
      {  console.log(res.data)
         dispatch({
-        type: FETCH_DATA_POST_USER_BY_ID,
+        type: FETCH_POST_BY_POST_ID,
         payload: res.data
     })})
     .catch(err => console.log(err))

@@ -1,5 +1,5 @@
 import {
-    ADD_CURHAT, FETCH_DATA_POST, FETCH_DATA_POST_BY_ID, FETCH_DATA_POST_USER_BY_ID
+    ADD_CURHAT, FETCH_DATA_POST, FETCH_DATA_POST_BY_ID, FETCH_DATA_POST_USER_BY_ID,FETCH_POST_BY_POST_ID
 } from '../actions/types'
 
 const initialState = {
@@ -28,11 +28,23 @@ export default function(state = initialState, action){
                 post_detail : action.payload
             }
             case FETCH_DATA_POST_USER_BY_ID : 
-            console.log(action.payload)
+            console.log({
+                ...state,
+                post_list_by_id : action.payload
+            })
             return {
                 ...state,
                 post_list_by_id : action.payload
             }
+            case FETCH_POST_BY_POST_ID : 
+            console.log({
+                ...state,
+                post_list_by_id : action.payload
+            })
+            return {
+                ...state,
+                post_by_post_id : action.payload
+            }            
             default:
             return state
     }
