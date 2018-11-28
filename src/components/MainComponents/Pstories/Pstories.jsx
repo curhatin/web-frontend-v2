@@ -12,6 +12,17 @@ class Pstories extends Component {
     super(props);
     this.state = {};
   }
+  renderRedirect = () => {
+    if (this.props.isAuthenticated === false) {
+     this.props.history.push("/Login");
+    }
+  };
+  componentDidMount(){
+    if(this.props.token){
+      this.props.fetchDataPost(localStorage.token);
+    }
+    
+  }
   render() {
     console.log(this.props.post_list)
     return (
@@ -42,8 +53,8 @@ class Pstories extends Component {
                               <div id="comment-box">
                                 <div id="comment-title">
                                   <h5>
-                                    {/* {`/PeopleStoryDetail/${this.props.id}`} */}
-                                    <Link to="/PeopleStoryDetail">
+                                
+                                    <Link to={`/PeopleStoryDetail/${postData.id}`} >
                                       <strong>{postData.topic}</strong>
                                     </Link>
                                   </h5>

@@ -4,6 +4,8 @@ import {
 import axios from "axios";
 
 export const fetchDataCommentsByPostId = (token,id) => (dispatch) => {
+    console.log('people', id)
+
     axios.get(`https://curhatin.herokuapp.com/comment/${id}`,{headers: {
         authorization: `Bearer ${token}`
         }})

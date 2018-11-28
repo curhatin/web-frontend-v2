@@ -13,7 +13,7 @@ class PeopleStoryDetail extends Component {
             <div>
                 <Navbar />
                 <UserNavbar />
-                <PstoryDetail />
+                <PstoryDetail  id={this.props.match.params.id}/>
             </div>
          );
     }

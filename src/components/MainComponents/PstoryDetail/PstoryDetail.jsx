@@ -1,14 +1,26 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../PstoryDetail/Style.css";
+import { connect } from "react-redux";
+import { login } from "../../../actions/authActions";
+import { fetchDataPostUserById } from "../../../actions/postActions";
+import timeAgo from "time-ago";
+import { Link } from "react-router-dom";
+import { fetchDataCommentsByPostId } from "../../../actions/commentsActions";
 
 class PstoryDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
+  componentDidMount() {
+    console.log('kebuka')
+    this.props.fetchDataPostUserById(localStorage.token, this.props.id);
+  }
   render() {
+    console.log(this.props.post_by_post_id )
     return (
+      <div>
       <div id="peoplestories">
         <div id="box-lg">
           <div className="container">
@@ -19,63 +31,90 @@ class PstoryDetail extends Component {
                     <div id="comment-wrapper">
                       <div className="col-md-12">
                         <div id="comment-notif">
-                          <p> 100 comments</p>
-                          <p> 10 minutes ago</p>
+                          <p>
+                            {" "}
+                            {this.props.post_by_post_id &&
+                              this.props.post_by_post_id[`posts-comments`].length}{" "}
+                            comments{" "}
+                          </p>
+                          <p>
+                            {" "}
+                            {timeAgo.ago(
+                              new Date(
+                                this.props.post_by_post_id &&
+                                  this.props.post_by_post_id.createdAt
+                              )
+                            )}
+                          </p>
                         </div>
                       </div>
+
                       <div className="col-md-12">
                         <div id="comment-box">
                           <div id="comment-title">
                             <a href="#">
                               <h5>
-                                <strong>Makan bang</strong>
+                                <strong>
+                                  {this.props.post_by_post_id &&
+                                    this.props.post_by_post_id.topic}
+                                </strong>
                               </h5>
                             </a>
                           </div>
                           <hr />
                           <div id="comment-content">
                             <p>
-                              {" "}
-                              Lorem ipsum dolor sit amet consectetur,
-                              adipisicing elit. Laboriosam, corrupti voluptate.
-                              Facere vel autem, sequi asperiores inventore
-                              facilis qui cum odit. Molestiae praesentium ipsam
-                              saepe tenetur fugiat dolorem! Magni, fugit?{" "}
+                              {this.props.post_by_post_id &&
+                                this.props.post_by_post_id.post}
                             </p>
                           </div>
                         </div>
                         <hr />
                       </div>
                     </div>
-                    <div id="other-comment-box">
-                      <div id="comment-title">
-                        <a href="#">
-                          <h5>
-                            <strong>Makan bang</strong>
-                          </h5>
-                        </a>
+                    <div id="button-wrapper">
+                      <div id="update-button">
+                        <button type="submit" className="btn-outline-success">
+                          Update
+                        </button>
                       </div>
-                      <hr />
-                      <div id="comment-content">
-                        <p>
-                          {" "}
-                          Lorem ipsum dolor sit amet consectetur, adipisicing
-                          elit. Laboriosam, corrupti voluptate. Facere vel
-                          autem, sequi asperiores inventore facilis qui cum
-                          odit. Molestiae praesentium ipsam saepe tenetur fugiat
-                          dolorem! Magni, fugit?{" "}
-                        </p>
+                      <div id="update-button">
+                        <button type="submit" className="btn-outline-success">
+                          Delete
+                        </button>
                       </div>
-                  </div>
-                  <div id="comment-button">
-                                <button
-                                  type="submit"
-                                  className="btn-outline-success"
-                                >
-                                  Comment
-                                </button>
-                              </div>
                     </div>
+
+                    {this.props.post_by_post_id &&
+                      this.props.post_by_post_id[`posts-comments`].map(
+                        (commentData, index) => (
+                          <div id="other-comment-box" key={index}>
+                            <div id="comment-title">
+                              <div id="comment-notif">
+                                <p>
+                                  {timeAgo.ago(
+                                    new Date(commentData.comment.createdAt)
+                                  )}
+                                </p>
+                              </div>
+                            </div>
+
+                            <div id="comment-content">
+                              <p>{commentData.comment.comments}</p>
+                              <hr />
+                            </div>
+                          </div>
+                        )
+                      )}
+
+                    <div id="button-wrapper-2">
+                      <div id="update-button-2">
+                        <button type="submit" className="btn-outline-success">
+                          Comment
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="col-md-2">
@@ -125,8 +164,20 @@ class PstoryDetail extends Component {
           </div>
         </div>
       </div>
+    </div>
     );
   }
 }
 
-export default PstoryDetail;
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  token: state.auth.token,
+  post_detail: state.post.post_detail,
+  comment: state.comment.comments_by_post_id,
+  post_by_post_id: state.post.post_by_post_id
+});
+
+export default connect(
+  mapStateToProps,
+  { login, fetchDataCommentsByPostId, fetchDataPostUserById }
+)(PstoryDetail);
