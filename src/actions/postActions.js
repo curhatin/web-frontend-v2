@@ -3,7 +3,8 @@ import {
     FETCH_DATA_POST,
     FETCH_DATA_POST_USER_BY_ID,
     FETCH_POST_BY_POST_ID,
-    DELETE_POST_BY_ID
+    DELETE_POST_BY_ID,
+    UPDATE_POST_BY_ID
 } from "./types"
 import axios from "axios";
 
@@ -98,4 +99,23 @@ export const DeleteDataPostUserById = (token, id) => (dispatch) => {
         })
         .catch(err => console.log(err))
 
+}
+
+export const updatePostById = data => dispatch => {
+    axios.put(`https://curhatin.herokuapp.com/post/${data.id}`, {
+            post: data.post,
+            topic: data.topic
+        }, {
+            headers: {
+                authorization: `Bearer ${data.token}`
+            }
+        })
+        .then(res => {
+            console.log(res)
+            dispatch({
+                type: UPDATE_POST_BY_ID,
+                payload: res.data
+            })
+        })
+        .catch(err => console.log(err))
 }

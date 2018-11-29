@@ -16,6 +16,10 @@ class MstoryDetail extends Component {
   componentDidMount() {
     this.props.fetchDataPostUserById(localStorage.token, this.props.id);
   }
+  updateHandle = () => {
+
+    this.props.history.push(`/UpdateStory/${this.props.id}`);
+  }
   deleteHandle = () => {
     this.props.DeleteDataPostUserById(localStorage.token, this.props.id)
     this.props.history.push("/Mystories");
@@ -76,7 +80,7 @@ class MstoryDetail extends Component {
                       </div>
                       <div id="button-wrapper">
                         <div id="update-button">
-                          <button type="submit" className="btn-outline-success">
+                          <button onClick={this.updateHandle}  type="submit" className="btn-outline-success">
                             Update
                           </button>
                         </div>

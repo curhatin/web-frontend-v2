@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import Navbar from '../MainComponents/Navbar/Navbar';
 import UserNavbar from '../MainComponents/UserNavbar/UserNavbar';
 import Update from  '../MainComponents/Update/Update'
+import { login } from "../../actions/authActions";
+import { connect } from "react-redux";
+import { updatePostById } from "../../actions/postActions";
 
 class UpdateStory extends Component {
     constructor(props) {
@@ -13,10 +16,19 @@ class UpdateStory extends Component {
             <div>
                 <Navbar />
                 <UserNavbar />
-                <Update />
+                <Update id={this.props.match.params.id} history={this.props.history}/>
             </div>
          );
     }
 }
  
-export default UpdateStory;
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    token: state.auth.token,
+    post_by_post_id: state.post.post_by_post_id
+  });
+  
+  export default connect(
+    mapStateToProps,
+    { login, updatePostById}
+  )(UpdateStory);

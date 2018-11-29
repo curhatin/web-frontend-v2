@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import '../Comment/Style.css'
 import { connect } from "react-redux";
+import { fetchDataPostUserById } from "../../../actions/postActions"
 
 
 class Comment extends Component {
@@ -19,7 +20,7 @@ class Comment extends Component {
     })
   }
   render() {
-    console.log(this.props.post_by_post_id)
+    console.log(this.props)
     return (
       <div>
         <div id="peoplestories">
@@ -133,5 +134,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(
-mapStateToProps,{}
+mapStateToProps,fetchDataPostUserById 
 )(Comment);
